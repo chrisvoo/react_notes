@@ -1,2 +1,2 @@
-# react_notes
-React notes
+# ReactJS notes
+See the wiki, no code at the moment
