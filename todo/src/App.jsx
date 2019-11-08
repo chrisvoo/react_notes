@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TodoBanner from './components/TodoBanner';
 import TodoRow from './components/TodoRow';
 import TodoCreator from './components/TodoCreator';
+import VisibilityControl from './components/VisibilityControl';
 
 export default class App extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class App extends Component {
         { action: 'Collect Tickets', done: true },
         { action: 'Call Joe', done: false },
       ],
+      showCompleted: true,
     };
 
     // Can be avoided using babel-eslint parser and fat arrow functions
@@ -36,11 +38,11 @@ export default class App extends Component {
     });
   }
 
-  todoTableRows = () => {
+  todoTableRows = (doneValue) => {
     const { todoItems } = this.state;
 
     return todoItems
-      .filter((item) => !Object.prototype.hasOwnProperty.call(item, 'newItemText'))
+      .filter((item) => item.done === doneValue)
       .map((item) => (
         <TodoRow key={item.action} item={item} callback={this.toggleTodo} />
       ));
@@ -52,12 +54,31 @@ export default class App extends Component {
     if (!todoItems.find((item) => item.action === task)) {
       this.setState({
         todoItems: [...todoItems, { action: task, done: false }],
-      });
+      }, () => localStorage.setItem('todos', JSON.stringify(this.state)));
     }
   }
 
+  /**
+   * invoked early in the component’s life and provides a good opportunity
+   * to perform tasks such as loading data.
+   */
+  componentDidMount = () => {
+    const data = localStorage.getItem('todos');
+    this.setState(data != null
+      ? JSON.parse(data)
+      : {
+        userName: 'Adam',
+        todoItems: [
+          { action: 'Buy Flowers', done: false },
+          { action: 'Get Shoes', done: false },
+          { action: 'Collect Tickets', done: true },
+          { action: 'Call Joe', done: false }],
+        showCompleted: true,
+      });
+  }
+
   render() {
-    const { userName, todoItems } = this.state;
+    const { userName, todoItems, showCompleted } = this.state;
 
     return (
       <div>
@@ -71,8 +92,26 @@ export default class App extends Component {
                 <th>Done</th>
               </tr>
             </thead>
-            <tbody>{ this.todoTableRows() }</tbody>
+            <tbody>{ this.todoTableRows(false) }</tbody>
           </table>
+          <div className="bg-secondary text-white text-center p-2">
+            <VisibilityControl
+              description="Completed Tasks"
+              isChecked={showCompleted}
+              callback={(checked) => this.setState({ showCompleted: checked })}
+            />
+          </div>
+          { showCompleted && (
+            <table className="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Done</th>
+                </tr>
+              </thead>
+              <tbody>{ this.todoTableRows(true) }</tbody>
+            </table>
+          )}
         </div>
       </div>
     );
