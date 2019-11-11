@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import {
+  BrowserRouter as Router, Route, Switch, Redirect,
+} from 'react-router-dom';
+import ShopConnector from './shop/ShopConnector';
+import SportsStoreDataStore from './data/DataStore';
 
 export default class App extends Component {
     render = () => (
-        <h4 className="bg-primary text-white text-center p-2 m-1">
-            Component Element
-        </h4>
-      )
+      <Provider store={SportsStoreDataStore}>
+        <Router>
+          <Switch>
+            <Route path="/shop" component={ShopConnector} />
+            <Redirect to="/shop" />
+          </Switch>
+        </Router>
+      </Provider>
+    )
 }

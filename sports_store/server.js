@@ -15,6 +15,14 @@ const app = express();
 const createServer = () => {
   // If a module isn’t in the cache, require will load the module again from disk
   delete require.cache[require.resolve(fileName)];
+
+  /* The json-server package supports pagination through query strings.
+   * Example: http://localhost:3500/api/products?
+      - category_like=watersports & 
+      - _page=2 & 
+      - _limit=3 & 
+      - _sort=name.
+   * It will also produce custom headers like X-Total-Count and Link */
   setTimeout(() => {
     router = jsonServer.router(fileName.endsWith('.js')
       ? require(fileName)() : fileName);
