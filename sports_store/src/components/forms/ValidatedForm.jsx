@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { ValidationError } from './ValidationError';
-import { GetMessages } from './ValidationMessages';
+import PropTypes from 'prop-types';
+import ValidationError from './ValidationError';
+import GetMessages from './ValidationMessages';
 
 /**
  * React supports two ways to use form elements: controlled and uncontrolled. For a controlled element,
@@ -12,6 +13,7 @@ import { GetMessages } from './ValidationMessages';
  * to the user. The advantage of using refs is that I can validate the form using the HTML5 validation API.
  * The validation API requires direct access to the form elements, which wouldn’t be possible without the use
  * of refs.
+ * @see https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation
  */
 export default class ValidatedForm extends Component {
   constructor(props) {
@@ -23,6 +25,8 @@ export default class ValidatedForm extends Component {
   }
 
   handleSubmit = () => {
+    const { submitCallback } = this.props;
+
     this.setState((state) => {
       const newState = { ...state, validationErrors: {} };
       Object.values(this.formElements).forEach((elem) => {
@@ -32,10 +36,12 @@ export default class ValidatedForm extends Component {
       });
       return newState;
     }, () => {
-      if (Object.keys(this.state.validationErrors).length === 0) {
+      const { validationErrors } = this.state;
+
+      if (Object.keys(validationErrors).length === 0) {
         const data = Object.assign(...Object.entries(this.formElements)
           .map((e) => ({ [e[0]]: e[1].value })));
-        this.props.submitCallback(data);
+        submitCallback(data);
       }
     });
   }
@@ -47,16 +53,20 @@ export default class ValidatedForm extends Component {
   }
 
   renderElement = (modelItem) => {
+    const { validationErrors } = this.state;
+    const { defaultAttrs } = this.props;
+
     const name = modelItem.name || modelItem.label.toLowerCase();
     return (
       <div className="form-group" key={modelItem.label}>
-        <label>{ modelItem.label }</label>
-        <ValidationError errors={this.state.validationErrors[name]} />
+        <label htmlFor={name}>{ modelItem.label }</label>
+        <ValidationError errors={validationErrors[name]} />
         <input
           className="form-control"
           name={name}
+          id={name}
           ref={this.registerRef}
-          {...this.props.defaultAttrs}
+          {...defaultAttrs}
           {...modelItem.attrs}
         />
       </div>
@@ -64,26 +74,45 @@ export default class ValidatedForm extends Component {
   }
 
   render() {
+    const {
+      submitText, cancelText, cancelCallback, formModel,
+    } = this.props;
     return (
       <>
-        { this.props.formModel.map((m) => this.renderElement(m))}
+        { formModel.map((m) => this.renderElement(m))}
         <div className="text-center">
           <button
             type="button"
             className="btn btn-secondary m-1"
-            onClick={this.props.cancelCallback}
+            onClick={cancelCallback}
           >
-            { this.props.cancelText || 'Cancel' }
+            { cancelText }
           </button>
           <button
             type="button"
             className="btn btn-primary m-1"
             onClick={this.handleSubmit}
           >
-            { this.props.submitText || 'Submit'}
+            { submitText }
           </button>
         </div>
       </>
     );
   }
 }
+
+ValidatedForm.defaultProps = {
+  submitText: 'Submit',
+  cancelText: 'Cancel',
+  formModel: [],
+  defaultAttrs: {},
+};
+
+ValidatedForm.propTypes = {
+  submitText: PropTypes.string,
+  cancelText: PropTypes.string,
+  cancelCallback: PropTypes.func.isRequired,
+  submitCallback: PropTypes.func.isRequired,
+  formModel: PropTypes.array,
+  defaultAttrs: PropTypes.object,
+};

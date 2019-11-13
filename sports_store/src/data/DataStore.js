@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import ShopReducer from './reducers/ShopReducer';
 import CommonReducer from './reducers/CommonReducer';
 import CartReducer from './reducers/CartReducer';
-import { asyncActions } from './AsyncMiddleware';
+import asyncActions from './AsyncMiddleware';
 
 /**
  * Redux data stores separate reading data from the operations that change it.
@@ -12,6 +12,6 @@ import { asyncActions } from './AsyncMiddleware';
  */
 const SportsStoreDataStore = createStore(
   CommonReducer(ShopReducer, CartReducer),
-  applyMiddleware(asyncActions)
+  applyMiddleware(asyncActions),
 );
 export default SportsStoreDataStore;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class ProductList extends Component {
   render() {
@@ -18,6 +19,7 @@ export default class ProductList extends Component {
         <div className="card-text bg-white p-1">
           { p.description }
           <button
+            type="button"
             className="btn btn-success btn-sm float-right"
             onClick={() => addToCart(p)}
           >
@@ -28,3 +30,12 @@ export default class ProductList extends Component {
     ));
   }
 }
+
+ProductList.defaultProps = {
+  products: [],
+};
+
+ProductList.propTypes = {
+  products: PropTypes.array,
+  addToCart: PropTypes.func.isRequired,
+};

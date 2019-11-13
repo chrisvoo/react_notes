@@ -1,4 +1,4 @@
-# Primer app
+# Sports store app
 
 Taking notes from:
 
@@ -12,6 +12,42 @@ ISBN-13 (electronic): 978-1-4842-4451-7
 The book's code is [hosted on GitHub](https://github.com/Apress/pro-react-16).
 
 ## Notes
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  
+**Warning**: it's not a good monorepo, take it just as a book's example refactored a bit to reflect the latest updates with the libs used.
 
-// Creating the Shopping Features, 108
+It's composed of three parts:
+
+- a backend with some REST endpoints, which runs with [json-server](https://github.com/typicode/json-server)
+- a React app (in `src` directory)
+- a GraphQL endpoint using Apollo's stuff.
+
+### GraphQL
+
+```
+query getProdById($id: ID!) {
+  product(id: $id) {
+    id
+    name
+    description
+    category
+    price
+  }
+}
+
+query getProds($cat: String, $sort: String, $page: Int, $pageSize: Int) {
+  products(category: $cat, sort: $sort, page: $page, pageSize: $pageSize) {
+    totalSize
+    products(sort: $sort, page: $page, pageSize: $pageSize) {
+      id
+      name
+      category
+      description
+      price
+    }
+  }
+}
+
+{
+  categories
+}
+```

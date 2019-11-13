@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ToggleLink from '../components/ToggleLink';
 
 export default class CategoryNavigation extends Component {
@@ -20,3 +21,12 @@ export default class CategoryNavigation extends Component {
     );
   }
 }
+
+CategoryNavigation.defaultProps = {
+  categories: [],
+};
+
+CategoryNavigation.propTypes = {
+  baseUrl: PropTypes.string.isRequired,
+  categories: PropTypes.array,
+};

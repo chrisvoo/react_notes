@@ -25,6 +25,8 @@
         "no-bitwise": "off",
         "max-len": ["error", {
             "code": 120
-        }]
+        }],
+        "import/no-extraneous-dependencies": "off",
+        "react/forbid-prop-types": "off"
     }
 }

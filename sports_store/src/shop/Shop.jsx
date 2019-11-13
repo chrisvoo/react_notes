@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import CategoryNavigation from './CategoryNavigation';
 import ProductList from './ProductList';
 import CartSummary from './CartSummary';
@@ -37,3 +38,18 @@ export default class Shop extends Component {
     );
   }
 }
+
+
+Shop.defaultProps = {
+  products: [],
+  history: {},
+  categories: [],
+};
+
+
+Shop.propTypes = {
+  addToCart: PropTypes.func.isRequired,
+  products: PropTypes.array,
+  history: PropTypes.object,
+  categories: PropTypes.array,
+};
