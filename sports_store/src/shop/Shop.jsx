@@ -27,7 +27,10 @@ export default class Shop extends Component {
         </div>
         <div className="row">
           <div className="col-3 p-2">
-            <CategoryNavigation baseUrl="/shop/products" categories={categories} />
+            <CategoryNavigation
+              baseUrl="/shop/products"
+              categories={categories}
+            />
           </div>
           <div className="col-9 p-2">
             <ProductPages />

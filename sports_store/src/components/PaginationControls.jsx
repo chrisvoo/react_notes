@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import PaginationButtons from './PaginationButtons';
 
 export default class PaginationControls extends Component {
@@ -22,7 +23,7 @@ export default class PaginationControls extends Component {
 
     render() {
       const {
-        currentPage, pageCount, navigateToPage, pageSize, sortKey 
+        currentPage, pageCount, navigateToPage, pageSize, sortKey,
       } = this.props;
       return (
         <div className="m-2">
@@ -61,3 +62,24 @@ export default class PaginationControls extends Component {
       );
     }
 }
+
+PaginationControls.defaultProps = {
+  currentPage: 0,
+  pageCount: 0,
+  pageSize: null,
+  sortKey: null,
+  sizes: null,
+  keys: null,
+};
+
+PaginationControls.propTypes = {
+  setPageSize: PropTypes.func.isRequired,
+  setSortProperty: PropTypes.func.isRequired,
+  currentPage: PropTypes.number,
+  pageCount: PropTypes.number,
+  navigateToPage: PropTypes.func.isRequired,
+  pageSize: PropTypes.number,
+  sortKey: PropTypes.string,
+  sizes: PropTypes.array,
+  keys: PropTypes.array,
+};

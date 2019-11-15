@@ -23,7 +23,7 @@ It's composed of three parts:
 
 ### GraphQL
 
-```
+```graphql
 query getProdById($id: ID!) {
   product(id: $id) {
     id
@@ -49,5 +49,56 @@ query getProds($cat: String, $sort: String, $page: Int, $pageSize: Int) {
 
 {
   categories
+}
+
+query getOrders($onlyUnshipped: Boolean) {
+  orders(onlyUnshipped: $onlyUnshipped) {
+    totalSize
+    orders(sort: "name") {
+      id
+      name
+      email
+      shipped
+      products {
+        quantity
+        product {
+          id
+          name
+          category
+          price
+        }
+      }
+    }
+  }
+}
+
+mutation insert($product: productStore) {
+  storeProduct(product: $product) {
+    id
+    name
+  }
+}
+
+mutation update($product: productUpdate) {
+  updateProduct(product: $product) {
+    id
+    name
+    price
+    category
+    description
+  }
+}
+
+mutation delete($id: ID!) {
+  deleteProduct(id: $id) {
+    name
+  }
+}
+
+mutation shipOrder($id: ID!, $shipped: Boolean!) {
+  shipOrder(id: $id, shipped: $shipped) {
+    id
+    name
+  }
 }
 ```

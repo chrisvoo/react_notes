@@ -1,33 +1,47 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { DataTypes } from './Types';
 
-export default class DataGetter extends Component {
-    componentDidUpdate = () => this.getData();
+const DataGetter = (props) => {
+  const {
+    products_params: productParams,
+    pageSize,
+    sortKey,
+    match: { params: { category, page } },
+    loadData,
+    children,
+  } = props;
 
-    componentDidMount = () => this.getData();
+  // componentDidMount, componentDidUpdate
+  useEffect(() => {
+    const rtData = {
+      _limit: pageSize,
+      _sort: sortKey,
+      _page: page || 1,
+      category_like: (category || '') === 'all' ? '' : category,
+    };
 
-    getData = () => {
-      const {
-        products_params: productParams,
-        pageSize = 5,
-        sortKey = 'name',
-        match: { params },
-        loadData,
-      } = this.props;
-      const dsData = productParams || {};
-      const rtData = {
-        _limit: pageSize,
-        _sort: sortKey,
-        _page: params.page || 1,
-        category_like: (params.category || '') === 'all' ? '' : params.category,
-      };
-
-      if (Object.keys(rtData).find((key) => dsData[key] !== rtData[key])) {
-        loadData(DataTypes.PRODUCTS, rtData);
-      }
+    if (Object.keys(rtData).find((key) => productParams[key] !== rtData[key])) {
+      loadData(DataTypes.PRODUCTS, rtData);
     }
+  });
 
-    render() {
-      return <>{this.props.children}</>;
-    }
-}
+  return <>{children}</>;
+};
+
+export default DataGetter;
+
+DataGetter.defaultProps = {
+  products_params: {},
+  pageSize: 5,
+  sortKey: 'name',
+};
+
+DataGetter.propTypes = {
+  products_params: PropTypes.object,
+  pageSize: PropTypes.number,
+  sortKey: PropTypes.string,
+  match: PropTypes.object.isRequired,
+  loadData: PropTypes.func.isRequired,
+  children: PropTypes.object.isRequired,
+};

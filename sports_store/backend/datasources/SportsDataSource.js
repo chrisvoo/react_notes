@@ -9,7 +9,7 @@ const { DataSource } = require('apollo-datasource');
  *
  * @see https://www.apollographql.com/docs/apollo-server/data/data-sources/#using-memcachedredis-as-a-cache-storage-backend
  */
-class ProductsDataSource extends DataSource {
+class SportsDataSource extends DataSource {
   constructor({ store }) {
     super();
     this.store = store;
@@ -53,6 +53,47 @@ class ProductsDataSource extends DataSource {
       },
     };
   }
+
+  getCategories() {
+    return this.store.get('categories').value();
+  }
+
+  getOrders(onlyUnshipped) {
+    return {
+      totalSize: () => this.store.get('orders')
+        .filter((o) => (onlyUnshipped ? o.shipped === false : o))
+        .size().value(),
+      orders: ({ sort, page, pageSize }) => {
+        let query = this.store.get('orders');
+        if (onlyUnshipped) { query = query.filter({ shipped: false }); }
+        if (sort) { query = query.orderBy(sort); }
+        return this.paginateQuery(query, page, pageSize).value()
+          .map((order) => ({
+            ...order,
+            products: () => (products) => products.map((p) => ({
+              quantity: p.quantity,
+              product: this.getProduct(p.product_id),
+            })),
+          }));
+      },
+    };
+  }
+
+  storeProduct(product) {
+    return this.store.get('products').insert(product).value();
+  }
+
+  updateProduct(product) {
+    return this.store.get('products').updateById(product.id, product).value();
+  }
+
+  deleteProduct(id) {
+    return this.store.get('products').removeById(id).value();
+  }
+
+  shipOrder(id, shipped) {
+    return this.store.get('products').updateById(id, { shipped }).value();
+  }
 }
 
-module.exports = ProductsDataSource;
+module.exports = SportsDataSource;

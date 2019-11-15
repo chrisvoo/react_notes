@@ -8,8 +8,7 @@ const chokidar = require('chokidar');
 const cors = require('cors');
 const { ApolloServer } = require('apollo-server-express');
 const typeDefs = require('./graphql/schema');
-const ProductsDataSource = require('./datasources/ProductsDataSource');
-const CategoriesDataSource = require('./datasources/CategoriesDataSource');
+const SportsDataSource = require('./datasources/SportsDataSource');
 const resolvers = require('./graphql/resolvers');
 
 const fileName = process.argv[2] || './data.js';
@@ -24,9 +23,9 @@ const createServer = () => new Promise((resolve) => {
 
   /* The json-server package supports pagination through query strings.
    * Example: http://localhost:3500/api/products?
-      - category_like=watersports & 
-      - _page=2 & 
-      - _limit=3 & 
+      - category_like=watersports &
+      - _page=2 &
+      - _limit=3 &
       - _sort=name.
    * It will also produce custom headers like X-Total-Count and Link */
   setTimeout(() => {
@@ -48,8 +47,7 @@ async function bootstrap() {
     typeDefs,
     resolvers,
     dataSources: () => ({
-      productsAPI: new ProductsDataSource({ store }),
-      categoriesAPI: new CategoriesDataSource({ store }),
+      sportsAPI: new SportsDataSource({ store }),
     }),
   });
   server.applyMiddleware({ app });

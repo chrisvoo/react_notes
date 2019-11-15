@@ -18,8 +18,27 @@ class ShopConnector extends Component {
   }
 
   selectComponent = (routeProps) => {
+    const { match } = routeProps;
+
+    /*
+      We're passing all the actions defined with Redux
+      addToCart: ƒ ()
+      clearCart: ƒ ()
+      history: {length: 16, action: "POP", location: {…}, createHref: ƒ, push: ƒ, …}
+      loadData: ƒ ()
+      location: {pathname: "/shop/products/all/1", search: "", hash: "", state: undefined, key: "ctgr52"}
+      match: {path: "/shop", url: "/shop", isExact: false, params: {…}}
+      placeOrder: ƒ ()
+      removeFromCart: ƒ ()
+      setPageSize: ƒ ()
+      setSortProperty: ƒ ()
+      staticContext: undefined
+      updateCartQuantity: ƒ ()
+    */
+
     const wrap = (AComponent, Content) => (
-      <AComponent {...this.props} {...routeProps}>
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      <AComponent {...this.props} match={match}>
         { Content && wrap(Content)}
       </AComponent>
     );

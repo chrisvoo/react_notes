@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ToggleLink from '../components/ToggleLink';
 
-export default class CategoryNavigation extends Component {
-  render() {
-    const { baseUrl, categories } = this.props;
+const CategoryNavigation = (props) => {
+  const { baseUrl, categories } = props;
 
-    return (
-      <>
-        <ToggleLink to={`${baseUrl}/all`} exact={false}>All</ToggleLink>
-        {categories && categories.map((cat) => (
-          <ToggleLink
-            key={cat}
-            to={`${baseUrl}/${cat.toLowerCase()}`}
-          >
-            { cat }
-          </ToggleLink>
-        ))}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <ToggleLink to={`${baseUrl}/all`} exact={false}>All</ToggleLink>
+      {categories && categories.map((cat) => (
+        <ToggleLink
+          key={cat}
+          to={`${baseUrl}/${cat.toLowerCase()}`}
+        >
+          { cat }
+        </ToggleLink>
+      ))}
+    </>
+  );
+};
+
+export default CategoryNavigation;
 
 CategoryNavigation.defaultProps = {
   categories: [],

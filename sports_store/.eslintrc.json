@@ -19,7 +19,8 @@
     },
     "plugins": [
         "react",
-        "babel"
+        "babel",
+        "react-hooks"
     ],
     "rules": {
         "no-bitwise": "off",
@@ -27,6 +28,8 @@
             "code": 120
         }],
         "import/no-extraneous-dependencies": "off",
-        "react/forbid-prop-types": "off"
+        "react/forbid-prop-types": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }

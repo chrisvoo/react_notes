@@ -7,6 +7,7 @@ import { ActionTypes, DataTypes } from '../Types';
  * If the action type isn’t recognized, the reducer must return the data store object it received
  * unchanged.
  */
+// eslint-disable-next-line consistent-return
 export default (storeData, action) => {
   switch (action.type) {
     case ActionTypes.DATA_LOAD:
