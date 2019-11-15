@@ -3,10 +3,11 @@ import { useQuery } from '@apollo/react-hooks';
 import OrdersTable from './OrdersTable';
 import { ORDERS_SUMMARY } from './clientQueries';
 
+const variables = {
+  onlyShipped: false, page: 1, pageSize: 10, sort: 'id',
+};
+
 const OrderConnector = () => {
-  const variables = {
-    onlyShipped: false, page: 1, pageSize: 10, sort: 'id',
-  };
   const {
     data, loading, error, refetch,
   } = useQuery(ORDERS_SUMMARY, {
@@ -34,15 +35,24 @@ const OrderConnector = () => {
 
   const { orders } = data;
   const theProps = {
-    totalSize: loading ? 0 : orders.totalSize,
+    totalSize: orders.totalSize,
     orders: orders.orders,
     currentPage: variables.page,
-    pageCount: loading ? 0 : Math.ceil(orders.totalSize / variables.pageSize),
-    navigateToPage: (page) => { variables.page = Number(page); refetch(variables); },
+    pageCount: Math.ceil(orders.totalSize / variables.pageSize),
+    navigateToPage: (page) => {
+      variables.page = Number(page);
+      refetch(variables);
+    },
     pageSize: variables.pageSize,
-    setPageSize: (size) => { variables.pageSize = Number(size); refetch(variables); },
+    setPageSize: (size) => {
+      variables.pageSize = Number(size);
+      refetch(variables);
+    },
     sortKey: variables.sort,
-    setSortProperty: (key) => { variables.sort = key; refetch(variables); },
+    setSortProperty: (key) => {
+      variables.sort = key;
+      refetch(variables);
+    },
   };
 
   // eslint-disable-next-line react/jsx-props-no-spreading

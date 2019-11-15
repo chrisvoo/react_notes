@@ -14,3 +14,10 @@ export const ORDERS_SUMMARY = gql`
     }
 `;
 
+export const SHIP_ORDER = gql`
+  mutation($id: ID!, $shipped: Boolean!) {
+    shipOrder(id: $id, shipped: $shipped) {
+      id, shipped
+    }
+  }
+`;

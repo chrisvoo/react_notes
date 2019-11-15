@@ -11,56 +11,58 @@ export default class PaginationControls extends Component {
     this.sortKeys = keys || ['Name', 'Price'];
   }
 
-    handlePageSizeChange = (ev) => {
-      const { setPageSize } = this.props;
-      setPageSize(ev.target.value);
-    }
+  handlePageSizeChange = (ev) => {
+    const { setPageSize } = this.props;
+    setPageSize(ev.target.value);
+  }
 
-    handleSortPropertyChange = (ev) => {
-      const { setSortProperty } = this.props;
-      setSortProperty(ev.target.value);
-    }
+  handleSortPropertyChange = (ev) => {
+    const { setSortProperty } = this.props;
+    setSortProperty(ev.target.value);
+  }
 
-    render() {
-      const {
-        currentPage, pageCount, navigateToPage, pageSize, sortKey,
-      } = this.props;
-      return (
-        <div className="m-2">
-          <div className="text-center m-1">
-            <PaginationButtons
-              currentPage={currentPage}
-              pageCount={pageCount}
-              navigate={navigateToPage}
-            />
-          </div>
-          <div className="form-inline justify-content-center">
-            <select
-              className="form-control"
-              onChange={this.handlePageSizeChange}
-              value={pageSize || this.pageSizes[0]}
-            >
-              { this.pageSizes.map((s) => (
-                <option value={s} key={s}>
-                  {`${s} per page`}
-                </option>
-              ))}
-            </select>
-            <select
-              className="form-control"
-              onChange={this.handleSortPropertyChange}
-              value={sortKey || this.sortKeys[0]}
-            >
-              { this.sortKeys.map((k) => (
-                <option value={k.toLowerCase()} key={k}>
-                  {`Sort By ${k}`}
-                </option>
-              ))}
-            </select>
-          </div>
+  render() {
+    const {
+      currentPage, pageCount, navigateToPage, pageSize, sortKey,
+    } = this.props;
+    console.log(this.props);
+
+    return (
+      <div className="m-2">
+        <div className="text-center m-1">
+          <PaginationButtons
+            currentPage={currentPage}
+            pageCount={pageCount}
+            navigate={navigateToPage}
+          />
         </div>
-      );
-    }
+        <div className="form-inline justify-content-center">
+          <select
+            className="form-control"
+            onChange={this.handlePageSizeChange}
+            value={pageSize || this.pageSizes[0]}
+          >
+            { this.pageSizes.map((s) => (
+              <option value={s} key={s}>
+                {`${s} per page`}
+              </option>
+            ))}
+          </select>
+          <select
+            className="form-control"
+            onChange={this.handleSortPropertyChange}
+            value={sortKey || this.sortKeys[0]}
+          >
+            { this.sortKeys.map((k) => (
+              <option value={k.toLowerCase()} key={k}>
+                {`Sort By ${k}`}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    );
+  }
 }
 
 PaginationControls.defaultProps = {
