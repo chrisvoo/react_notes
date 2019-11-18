@@ -27,6 +27,7 @@ class SportsDataSource extends DataSource {
 
   // eslint-disable-next-line class-methods-use-this
   paginateQuery(query, page = 1, pageSize = 5) {
+    console.log('paginateQuery', page, pageSize);
     return query.drop((page - 1) * pageSize).take(pageSize);
   }
 
@@ -38,6 +39,7 @@ class SportsDataSource extends DataSource {
     const {
       category, sort, page, pageSize,
     } = args;
+    console.log('getProducts', args);
 
     return {
       totalSize: () => this.store.get('products')
@@ -92,7 +94,7 @@ class SportsDataSource extends DataSource {
   }
 
   shipOrder(id, shipped) {
-    return this.store.get('products').updateById(id, { shipped }).value();
+    return this.store.get('orders').updateById(id, { shipped }).value();
   }
 }
 

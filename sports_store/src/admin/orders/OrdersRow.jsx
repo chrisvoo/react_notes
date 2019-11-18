@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class OrdersRow extends Component {
+    // eslint-disable-next-line
     calcTotal = (products) => products.reduce((total, p) => total += p.quantity * p.product.price, 0).toFixed(2)
 
     getShipping = (order) => (order.shipped
@@ -10,7 +11,9 @@ export default class OrdersRow extends Component {
 
     render = () => {
       const { order, toggleShipped } = this.props;
-      const { id, name, email, products, shipped } = order;
+      const {
+        id, name, email, products, shipped,
+      } = order;
       return (
         <tr>
           <td>{ id }</td>

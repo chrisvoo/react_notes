@@ -1,7 +1,8 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import OrdersTable from './OrdersTable';
-import { ORDERS_SUMMARY } from './clientQueries';
+import { ORDERS_SUMMARY } from '../clientQueries';
+import { SHIP_ORDER } from '../clientMutations';
 
 const variables = {
   onlyShipped: false, page: 1, pageSize: 10, sort: 'id',
@@ -15,6 +16,8 @@ const OrderConnector = () => {
     errorPolicy: 'all',
     displayName: 'OrderConnectorQuery', /* Component's name to be displayed in React DevTools (def: Query) */
   });
+
+  const [toggleShipped] = useMutation(SHIP_ORDER);
 
   if (loading) return 'Loading..';
   if (error) {
@@ -53,6 +56,7 @@ const OrderConnector = () => {
       variables.sort = key;
       refetch(variables);
     },
+    toggleShipped,
   };
 
   // eslint-disable-next-line react/jsx-props-no-spreading

@@ -25,7 +25,6 @@ export default class PaginationControls extends Component {
     const {
       currentPage, pageCount, navigateToPage, pageSize, sortKey,
     } = this.props;
-    console.log(this.props);
 
     return (
       <div className="m-2">

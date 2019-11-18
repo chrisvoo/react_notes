@@ -11,7 +11,7 @@ export default () => (
   <Provider store={SportsStoreDataStore}>
     <Router>
       <Switch>
-        <Route path="/admin" exact component={Admin} />
+        <Route path="/admin" component={Admin} />
         <Route path="/shop" component={ShopConnector} />
         <Redirect to="/shop" />
       </Switch>

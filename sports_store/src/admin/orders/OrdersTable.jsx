@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import OrdersRow from './OrdersRow';
-import PaginationControls from '../components/PaginationControls';
+import PaginationControls from '../../components/PaginationControls';
 
 const OrdersTable = (props) => {
   const { toggleShipped, totalSize, orders } = props;
@@ -31,7 +31,7 @@ const OrdersTable = (props) => {
             <OrdersRow
               key={order.id}
               order={order}
-              toggleShipped={() => toggleShipped(order.id, !order.shipped)}
+              toggleShipped={() => toggleShipped({ variables: { id: order.id, shipped: !order.shipped } })}
             />
           ))}
         </tbody>
