@@ -82,6 +82,7 @@ class SportsDataSource extends DataSource {
   }
 
   storeProduct(product) {
+    console.log(product)
     return this.store.get('products').insert(product).value();
   }
 

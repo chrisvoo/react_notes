@@ -11,7 +11,7 @@ export default class ProductCreator extends Component {
     this.formModel = [
       { label: 'Name' }, { label: 'Description' },
       { label: 'Category' },
-      { label: 'Price', attrs: { type: 'number' } },
+      { label: 'Price', attrs: { type: 'number', step: 0.01, min: 0.01 } },
     ];
     this.mutation = STORE_PRODUCT;
     const { mode, product } = this.props;
@@ -54,14 +54,14 @@ export default class ProductCreator extends Component {
                 <ValidatedForm
                   formModel={this.formModel}
                   defaultAttrs={this.defaultAttrs}
-                  submitCallback={(data) => {
+                  submitCallback={async (data) => {
                     saveMutation({
                       variables: {
                         product: { ...data, price: Number(data.price) },
                       },
                     });
                     if (mode !== 'edit') {
-                      client.resetStore();
+                      await client.resetStore();
                     }
                     this.navigate();
                   }}
@@ -81,10 +81,11 @@ export default class ProductCreator extends Component {
 ProductCreator.defaultProps = {
   mode: '',
   history: {},
+  product: {},
 };
 
 ProductCreator.propTypes = {
   mode: PropTypes.string,
-  product: PropTypes.object.isRequired,
+  product: PropTypes.object, // required just for edit mode
   history: PropTypes.object,
 };
