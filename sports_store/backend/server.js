@@ -6,14 +6,18 @@ const express = require('express');
 const jsonServer = require('json-server');
 const chokidar = require('chokidar');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { ApolloServer } = require('apollo-server-express');
+/* Middleware to proxy requests through a specified index page, useful
+ * for Single Page Applications that utilise the HTML5 History API. */
+const history = require('connect-history-api-fallback');
 const typeDefs = require('./graphql/schema');
 const SportsDataSource = require('./datasources/SportsDataSource');
 const resolvers = require('./graphql/resolvers');
 const auth = require('./authMiddleware');
 
-const fileName = process.argv[2] || './data.js';
-const port = process.argv[3] || 3500;
+const fileName = process.env.DATA || './data/data.js';
+const port = process.env.PORT || 3500;
 let router;
 let store;
 const app = express();
@@ -40,10 +44,16 @@ const createServer = () => new Promise((resolve) => {
 async function bootstrap() {
   await createServer();
 
-  app.use(cors({
-    origin: 'http://localhost:3000',
+  const corsOptions = {
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,
-  }));
+  };
+
+  app.use(history());
+  app.use('/', express.static('./build'));
+
+  app.use(cors(corsOptions));
+  app.use(cookieParser());
   app.use(jsonServer.bodyParser);
   app.use(auth);
   app.use('/api', (req, resp, next) => router(req, resp, next));
@@ -55,7 +65,7 @@ async function bootstrap() {
       sportsAPI: new SportsDataSource({ store }),
     }),
   });
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: corsOptions });
 
   chokidar.watch(fileName).on('change', () => {
     console.log('Reloading web service data...');

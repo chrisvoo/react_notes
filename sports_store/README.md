@@ -102,3 +102,12 @@ mutation shipOrder($id: ID!, $shipped: Boolean!) {
   }
 }
 ```
+
+### Docker
+
+```
+docker build . -t sportsstore  -f  Dockerfile
+docker run -p 80:80 sportsstore
+docker ps
+docker stop <CONTAINER_ID>
+```

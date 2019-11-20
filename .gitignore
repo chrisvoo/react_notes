@@ -15,6 +15,7 @@ todo/coverage
 
 # production
 todo/build
+sports_store/build
 
 # misc
 .DS_Store

@@ -21,6 +21,10 @@ class Admin extends Component {
     if (!process.env.REACT_APP_GRAPHQL_ENDPOINT) {
       throw new Error('REACT_APP_GRAPHQL_ENDPOINT env missing');
     }
+  }
+
+  render = () => {
+    const { isAuthenticated, signout } = this.props;
 
     const { webToken } = this.props;
 
@@ -54,10 +58,6 @@ class Admin extends Component {
         },
       },
     });
-  }
-
-  render = () => {
-    const { isAuthenticated, signout } = this.props;
 
     return (
       <ApolloProvider client={this.client}>

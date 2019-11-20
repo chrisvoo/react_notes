@@ -1,0 +1,21 @@
+FROM node:10.14.1
+
+RUN mkdir -p /usr/src/sportsstore
+
+COPY build /usr/src/sportsstore/build
+
+COPY sports_store/backend/authMiddleware.js /usr/src/sportsstore/
+COPY sports_store/backend/data/productionData.json /usr/src/sportsstore/
+COPY sports_store/backend/server.js /usr/src/sportsstore/
+# ...
+
+WORKDIR /usr/src/sportsstore
+
+RUN echo 'package-lock=false' >> .npmrc
+
+RUN npm install
+
+EXPOSE 80
+
+# how to pass env vars?
+CMD ["node", "server.js"]

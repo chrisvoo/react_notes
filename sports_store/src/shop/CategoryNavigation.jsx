@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ToggleLink from '../components/ToggleLink';
 
 const CategoryNavigation = (props) => {
@@ -16,6 +17,12 @@ const CategoryNavigation = (props) => {
           { cat }
         </ToggleLink>
       ))}
+      <Link
+        className="btn btn-block btn-secondary fixed-bottom m-2 col-3"
+        to="/admin"
+      >
+        Admin
+      </Link>
     </>
   );
 };
