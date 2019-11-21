@@ -1,5 +1,4 @@
-todo/node_modules
-sports_store/node_modules
+node_modules
 
 # editors
 .vscode
@@ -14,8 +13,7 @@ todo/.pnp.js
 todo/coverage
 
 # production
-todo/build
-sports_store/build
+build
 
 # misc
 .DS_Store
