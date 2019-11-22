@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import ProductsRow from './ProductsRow';
+import ProductTableRow from './ProductTableRow';
 import PaginationControls from '../../components/PaginationControls';
 
 const ProductsTable = (props) => {
-  const { totalSize, products, deleteProduct } = props;
+  const {
+    totalSize, products, deleteProduct,
+  } = props;
 
   return (
     <div>
@@ -29,7 +31,7 @@ const ProductsTable = (props) => {
         </thead>
         <tbody>
           { products.map((prod) => (
-            <ProductsRow
+            <ProductTableRow
               key={prod.id}
               product={prod}
               deleteProduct={deleteProduct}
@@ -57,4 +59,5 @@ ProductsTable.propTypes = {
   products: PropTypes.array,
   totalSize: PropTypes.number,
   deleteProduct: PropTypes.func.isRequired,
+  updateProduct: PropTypes.func.isRequired,
 };

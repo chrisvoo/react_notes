@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const ProductsRow = (props) => {
+const ProductTableRow = (props) => {
   const { product, deleteProduct } = props;
   return (
     <tr>
@@ -31,9 +31,9 @@ const ProductsRow = (props) => {
   );
 };
 
-export default ProductsRow;
+export default ProductTableRow;
 
-ProductsRow.propTypes = {
+ProductTableRow.propTypes = {
   product: PropTypes.object.isRequired,
   deleteProduct: PropTypes.func.isRequired,
 };

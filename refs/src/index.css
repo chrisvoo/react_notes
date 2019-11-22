@@ -11,8 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.form-check-input {
-  margin-top: 0.5rem !important;
-  margin-left: 0.25rem !important;
-}
