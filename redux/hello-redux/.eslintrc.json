@@ -1,0 +1,37 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true
+    },
+    "extends": ["airbnb"],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "babel",
+        "import",
+        "react-hooks"
+    ],
+    "rules": {
+        "no-bitwise": "off",
+        "max-len": ["error", {
+            "code": 120
+        }],
+        "react/jsx-one-expression-per-line": "off",
+        "import/no-extraneous-dependencies": "off",
+        "react/forbid-prop-types": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
+    }
+}
